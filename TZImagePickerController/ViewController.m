@@ -7,9 +7,8 @@
 //
 
 #import "ViewController.h"
-#import "TZImagePickerController.h"
-#import "UIView+Layout.h"
 #import "TZTestCell.h"
+#import <TZImagePicker/TZImagePicker.h>
 
 @interface ViewController ()<TZImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate> {
     UICollectionView *_collectionView;

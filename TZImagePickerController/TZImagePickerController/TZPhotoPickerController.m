@@ -28,6 +28,7 @@
     
     BOOL _isSelectOriginalPhoto;
     BOOL _shouldScrollToBottom;
+    NSBundle *_bundle;
 }
 @property (nonatomic, strong) NSMutableArray *selectedPhotoArr;
 @property CGRect previousPreheatRect;
@@ -44,6 +45,7 @@ static CGSize AssetGridThumbnailSize;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _bundle = [NSBundle bundleForClass:[self class]];
     _shouldScrollToBottom = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = _model.name;
@@ -75,7 +77,7 @@ static CGSize AssetGridThumbnailSize;
     _collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, -2);
     _collectionView.contentSize = CGSizeMake(self.view.tz_width, ((_model.count + 3) / 4) * self.view.tz_width);
     [self.view addSubview:_collectionView];
-    [_collectionView registerNib:[UINib nibWithNibName:@"TZAssetCell" bundle:nil] forCellWithReuseIdentifier:@"TZAssetCell"];
+    [_collectionView registerNib:[UINib nibWithNibName:@"TZAssetCell" bundle:[NSBundle bundleForClass:[self class]]] forCellWithReuseIdentifier:@"TZAssetCell"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -123,8 +125,8 @@ static CGSize AssetGridThumbnailSize;
         [_originalPhotoButton setTitle:@"原图" forState:UIControlStateSelected];
         [_originalPhotoButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         [_originalPhotoButton setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
-        [_originalPhotoButton setImage:[UIImage imageNamed:@"photo_original_def"] forState:UIControlStateNormal];
-        [_originalPhotoButton setImage:[UIImage imageNamed:@"photo_original_sel"] forState:UIControlStateSelected];
+        [_originalPhotoButton setImage:[UIImage imageNamed:@"photo_original_def" inBundle:_bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+        [_originalPhotoButton setImage:[UIImage imageNamed:@"photo_original_sel" inBundle:_bundle compatibleWithTraitCollection:nil] forState:UIControlStateSelected];
         _originalPhotoButton.enabled = _selectedPhotoArr.count > 0;
         
         _originalPhotoLable = [[UILabel alloc] init];
@@ -145,7 +147,7 @@ static CGSize AssetGridThumbnailSize;
     [_okButton setTitleColor:imagePickerVc.oKButtonTitleColorDisabled forState:UIControlStateDisabled];
     _okButton.enabled = NO;
     
-    _numberImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_number_icon"]];
+    _numberImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_number_icon" inBundle:_bundle compatibleWithTraitCollection:nil]];
     _numberImageView.frame = CGRectMake(self.view.tz_width - 56 - 24, 12, 26, 26);
     _numberImageView.hidden = _selectedPhotoArr.count <= 0;
     _numberImageView.backgroundColor = [UIColor clearColor];

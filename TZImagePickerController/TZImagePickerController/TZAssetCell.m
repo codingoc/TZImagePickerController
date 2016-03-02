@@ -12,7 +12,9 @@
 #import "TZImageManager.h"
 #import "TZImagePickerController.h"
 
-@interface TZAssetCell ()
+@interface TZAssetCell (){
+    NSBundle *_bundle;
+}
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;       // The photo / 照片
 @property (weak, nonatomic) IBOutlet UIImageView *selectImageView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
@@ -24,6 +26,7 @@
 
 - (void)awakeFromNib {
     self.timeLength.font = [UIFont boldSystemFontOfSize:11];
+    _bundle = [NSBundle bundleForClass:[self class]];
 }
 
 - (void)setModel:(TZAssetModel *)model {
@@ -32,7 +35,7 @@
         self.imageView.image = photo;
     }];
     self.selectPhotoButton.selected = model.isSelected;
-    self.selectImageView.image = self.selectPhotoButton.isSelected ? [UIImage imageNamed:@"photo_sel_photoPickerVc"] : [UIImage imageNamed:@"photo_def_photoPickerVc"];
+    self.selectImageView.image = self.selectPhotoButton.isSelected ? [UIImage imageNamed:@"photo_sel_photoPickerVc" inBundle:_bundle compatibleWithTraitCollection:nil] : [UIImage imageNamed:@"photo_def_photoPickerVc" inBundle:_bundle compatibleWithTraitCollection:nil];
     self.type = TZAssetCellTypePhoto;
     if (model.type == TZAssetModelMediaTypeLivePhoto)      self.type = TZAssetCellTypeLivePhoto;
     else if (model.type == TZAssetModelMediaTypeAudio)     self.type = TZAssetCellTypeAudio;
@@ -59,7 +62,7 @@
     if (self.didSelectPhotoBlock) {
         self.didSelectPhotoBlock(sender.isSelected);
     }
-    self.selectImageView.image = sender.isSelected ? [UIImage imageNamed:@"photo_sel_photoPickerVc"] : [UIImage imageNamed:@"photo_def_photoPickerVc"];
+    self.selectImageView.image = sender.isSelected ? [UIImage imageNamed:@"photo_sel_photoPickerVc" inBundle:_bundle compatibleWithTraitCollection:nil] : [UIImage imageNamed:@"photo_def_photoPickerVc" inBundle:_bundle compatibleWithTraitCollection:nil];
     if (sender.isSelected) {
         [UIView showOscillatoryAnimationWithLayer:_selectImageView.layer type:TZOscillatoryAnimationToBigger];
     }

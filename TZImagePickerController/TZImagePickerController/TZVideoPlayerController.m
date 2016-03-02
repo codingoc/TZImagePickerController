@@ -22,6 +22,7 @@
     UIView *_toolBar;
     UIButton *_okButton;
     UIProgressView *_progress;
+    NSBundle *_bundle;
 }
 @end
 
@@ -29,6 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _bundle = [NSBundle bundleForClass:[self class]];
     self.view.backgroundColor = [UIColor blackColor];
     self.navigationItem.title = @"视频预览";
     [self configMoviePlayer];
@@ -68,8 +70,8 @@
 - (void)configPlayButton {
     _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _playButton.frame = CGRectMake(0, 64, self.view.tz_width, self.view.tz_height - 64 - 44);
-    [_playButton setImage:[UIImage imageNamed:@"MMVideoPreviewPlay"] forState:UIControlStateNormal];
-    [_playButton setImage:[UIImage imageNamed:@"MMVideoPreviewPlayHL"] forState:UIControlStateHighlighted];
+    [_playButton setImage:[UIImage imageNamed:@"MMVideoPreviewPlay" inBundle:_bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+    [_playButton setImage:[UIImage imageNamed:@"MMVideoPreviewPlayHL" inBundle:_bundle compatibleWithTraitCollection:nil] forState:UIControlStateHighlighted];
     [_playButton addTarget:self action:@selector(playButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_playButton];
 }
@@ -126,7 +128,7 @@
     [_player pause];
     _toolBar.hidden = NO;
     [self.navigationController setNavigationBarHidden:NO];
-    [_playButton setImage:[UIImage imageNamed:@"MMVideoPreviewPlay"] forState:UIControlStateNormal];
+    [_playButton setImage:[UIImage imageNamed:@"MMVideoPreviewPlay" inBundle:_bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
     if (iOS7Later) [UIApplication sharedApplication].statusBarHidden = NO;
 }
 

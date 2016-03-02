@@ -23,6 +23,7 @@
     UIView *_HUDContainer;
     UIActivityIndicatorView *_HUDIndicatorView;
     UILabel *_HUDLable;
+    NSBundle *_bundle;
 }
 @end
 
@@ -30,6 +31,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _bundle = [NSBundle bundleForClass:[self class]];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationBar.translucent = YES;
@@ -165,12 +167,12 @@
     
     if (self.childViewControllers.count > 0) {
         UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(3, 0, 44, 44)];
-        [backButton setImage:[UIImage imageNamed:@"navi_back"] forState:UIControlStateNormal];
+        [backButton setImage:[UIImage imageNamed:@"navi_back" inBundle:_bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
         backButton.imageEdgeInsets = UIEdgeInsetsMake(0, -5, 0, 0);
         [backButton setTitle:@"返回" forState:UIControlStateNormal];
         backButton.titleLabel.font = [UIFont systemFontOfSize:15];
         [backButton addTarget:self action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
-        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+        viewController.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     }
     [super pushViewController:viewController animated:animated];
 }
@@ -187,11 +189,16 @@
 
 @implementation TZAlbumPickerController
 
+- (instancetype)init {
+    // 设置nav bar item
+    self.navigationItem.title = @"照片";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    return [super init];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"照片";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
     [self configTableView];
 }
 
@@ -213,7 +220,7 @@
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        [_tableView registerNib:[UINib nibWithNibName:@"TZAlbumCell" bundle:nil] forCellReuseIdentifier:@"TZAlbumCell"];
+        [_tableView registerNib:[UINib nibWithNibName:@"TZAlbumCell" bundle:[NSBundle bundleForClass:[self class]]] forCellReuseIdentifier:@"TZAlbumCell"];
         [self.view addSubview:_tableView];
     }];
 }
