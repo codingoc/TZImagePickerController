@@ -219,6 +219,8 @@ static CGSize AssetGridThumbnailSize;
             if (_isSelectOriginalPhoto) [assets replaceObjectAtIndex:i withObject:model.asset];
 
             for (id item in photos) { if ([item isKindOfClass:[NSNumber class]]) return; }
+            // 处理完毕
+            [imagePickerVc hideProgressHUD];
             
             if ([imagePickerVc.pickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPickingPhotos:sourceAssets:)]) {
                 [imagePickerVc.pickerDelegate imagePickerController:imagePickerVc didFinishPickingPhotos:photos sourceAssets:assets];
@@ -232,7 +234,6 @@ static CGSize AssetGridThumbnailSize;
             if (imagePickerVc.didFinishPickingPhotosWithInfosHandle) {
                 imagePickerVc.didFinishPickingPhotosWithInfosHandle(photos,assets,infoArr);
             }
-            [imagePickerVc hideProgressHUD];
         }];
     }
 }
