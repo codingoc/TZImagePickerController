@@ -25,3 +25,4 @@ FOUNDATION_EXPORT const unsigned char TZImagePickerVersionString[];
 #import <TZImagePicker/TZPhotoPreviewController.h>
 #import <TZImagePicker/TZVideoPlayerController.h>
 #import <TZImagePicker/UIView+Layout.h>
+#import <TZImagePicker/TZPhotoPreviewCell.h>
